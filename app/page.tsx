@@ -3,7 +3,7 @@ import CompanionsList from "@/components/CompanionsList";
 import CTA from "@/components/CTA";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { subjects } from "./../constants/index";
+import { recentSessions, subjects } from "./../constants/index";
 
 const Page = () => {
   return (
@@ -37,7 +37,11 @@ const Page = () => {
       </section>
 
       <section className="home-section">
-        <CompanionsList />
+        <CompanionsList
+          title="Recently completed sessions"
+          classNames="w-2/3 max-lg:w-full"
+          companions={recentSessions}
+        />
         <CTA />
       </section>
     </main>
