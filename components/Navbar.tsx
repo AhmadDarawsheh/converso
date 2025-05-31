@@ -11,7 +11,7 @@ const Navbar = () => {
           <Image src="/images/logo.svg" alt="logo" width={47} height={44} />
         </div>
       </Link>
-      <div className="flex items-center gap-8 *:">
+      <div className="flex items-center gap-8 max-md:gap-2">
         <NavbarItem />
         <SignedOut>
           <SignInButton>
