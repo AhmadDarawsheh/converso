@@ -25,24 +25,19 @@ export const getAllCompanions = async ({
   topic,
 }: GetAllCompanions) => {
   const supabase = createSupabaseClient();
-  let query = supabase.from("companions").select();
+  let query = supabase.from("companions").select("*");
 
-  if (subject && topic) {
-    query = query
-      .ilike("subject", `%${subject}%`)
-      .or(`topic.ilike.%${topic}%, name.ilike.%${topic}%`);
-  } else if (subject) {
-    query = query.ilike("subject", `%${subject}%`);
-  } else if (topic) {
-    query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
-  }
+  if (subject) query = query.ilike("subject", `%${subject}%`);
+  if (topic) query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`);
 
-  query = query.range((page - 1) * limit, page * limit - 1);
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
 
-  const { data: companions, error } = await query;
+  const { data: companions, error } = await query
+    .order("created_at", { ascending: false }) // or "id"
+    .range(from, to);
 
   if (error) throw new Error(error.message);
-
   return companions;
 };
 
